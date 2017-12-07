@@ -1,7 +1,3 @@
-// ### Option Two: Advanced Assignment (Timed Questions)
-// * You'll create a trivia game that shows only one question until
-//  the player answers it or their time runs out.
-
 // var userPick = "",
 var questions = [
 	{
@@ -62,14 +58,14 @@ function timer() {
 		$("#time-left").html("<p>Time Remaining: " + seconds + " seconds</p>");
 		console.log(seconds);
 	} 
-	
 }
 
 function reset() {
 	seconds = 11;
+	// timer();
+	var counter = setInterval(timer, 1000);
 	$("#question").empty();
 	$("#answerChoices").empty();
-
 }
 
 // // if user gets right answer
@@ -89,12 +85,11 @@ $(document).ready(function() {
 	// User presses Start
 	$('#start').on("click", function(event) {
 
-
 		// remove Start button
 		$("#start").hide();
 
 		// Prevents submit button from trying to submit the form
-		event.preventDefault();
+		// event.preventDefault();
 
 		function generateQandA() {
 			// randomize questions
@@ -109,7 +104,7 @@ $(document).ready(function() {
 			console.log(random);			
 
 			// time remaining
-			timer();
+			// timer();
 			var counter = setInterval(timer, 1000);
 
 			// Question
@@ -173,8 +168,6 @@ $(document).ready(function() {
 		}
 		
 		generateQandA();
-
-		
 
 	// * The scenario is similar for wrong answers and time-outs.
 
