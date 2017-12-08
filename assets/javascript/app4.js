@@ -49,6 +49,7 @@ var game = {
 	seconds: 11,
 	correct: 0,
 	wrong: 0,
+	random: Math.floor(Math.random() * questions.length),
 	// j: 0,
 	timer: function() {
 		
@@ -66,9 +67,6 @@ var game = {
 		$("#correct-wrong").empty();
 	},
 	generateQandA: function() {
-		// randomize q and q
-		var random = Math.floor(Math.random() * questions.length);
-
 		// Question
 		$("#question").html(questions[random].q);
 
@@ -134,9 +132,14 @@ $('#start').on("click", function(event) {
 	game.generateQandA();
 
 	// if user gets correct or wrong answer, or time is up
-	game.correctAnswer();
-	game.wrongAnswer();
-	game.timesUp();
+
+	$('#answerChoices').on('click', function(){
+  		if($(this).attr('data-value') === questions[random].correct_a){
+    		game.correctAnswer();
+  		} else {
+    		game.wrongAnswer();
+  		}
+	});
 
 });
 
