@@ -68,18 +68,16 @@ var game = {
 	},
 	generateQandA: function() {
 		// Question
-		$("#question").html(questions[random].q);
+		$("#question").html(questions[game.random].q);
 
 		// Answer
-		for (var i = 0; i < questions[random].all_a.length; i++) {
+		for (var i = 0; i < questions[game.random].all_a.length; i++) {
 			var div = $("<div>");
-			div.text(questions[random].all_a[i]);
+			div.text(questions[game.random].all_a[i]);
 			div.addClass("answerOptions");
-			div.attr("data-value", questions[random].all_a[i]);
+			div.attr("data-value", questions[game.random].all_a[i]);
 			$("#answerChoices").append(div);
 		}
-	},
-	userPick: $(this).attr("data-value"),
 	},
 	resultTransition: function() {
 		// after couple seconds go to next question
@@ -89,26 +87,22 @@ var game = {
 	},
 	correctAnswer: function() {
 		$("#answerChoices").on("click", function() {
-			if (game.userPick === questions[random].correct_a){
-				// $("#question").empty();
-				// $("#answerChoices").empty();
-				$("#correct-wrong").html("<h2> Correct! </h2>");
-				game.resultTransition;
-			}
+			// $("#question").empty();
+			// $("#answerChoices").empty();
+			$("#correct-wrong").html("<h2> Correct! </h2>");
+			game.resultTransition;
 		});
 	},
-	wrongAnswer: function() {
-		if (userPick !== questions[random].correct_a) {				
-			$("#correct-wrong").html("<h2> Wrong! Correct answer is " 
-				+ questions[random].correct_a + "</h2>");
-			// $("#question").empty();
-			game.resultTransition;
-		}
+	wrongAnswer: function() {				
+		$("#correct-wrong").html("<h2> Wrong! Correct answer is " 
+			+ questions[game.random].correct_a + "</h2>");
+		// $("#question").empty();
+		game.resultTransition;
 	},
 	timesUp: function() {
 		if (seconds === 0) {
 			$("#correct-wrong").html("<h2> Time is up! Correct answer is... " 
-			+ questions[random].correct_a + " </h2>");
+			+ questions[game.random].correct_a + " </h2>");
 			game.resultTransition;
 		}
 	}
@@ -134,7 +128,7 @@ $('#start').on("click", function(event) {
 	// if user gets correct or wrong answer, or time is up
 
 	$('#answerChoices').on('click', function(){
-  		if($(this).attr('data-value') === questions[random].correct_a){
+  		if($(this).attr('data-value') === questions[game.random].correct_a){
     		game.correctAnswer();
   		} else {
     		game.wrongAnswer();
