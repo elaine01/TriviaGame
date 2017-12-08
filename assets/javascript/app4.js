@@ -51,9 +51,10 @@ var game = {
 	wrong: 0,
 	// j: 0,
 	timer: function() {
-		if (seconds > 0) {
-			seconds--;
-			$("#time-left").html("<p>Time Remaining: " + seconds + " seconds</p>");
+		
+		if (game.seconds > 0) {
+			game.seconds--;
+			$("#time-left").html("<p>Time Remaining: " + game.seconds + " seconds</p>");
 		}
 	},
 	reset: function() {
@@ -80,7 +81,7 @@ var game = {
 			$("#answerChoices").append(div);
 		}
 	},
-	userPick: function() {
+	userPicked: function() {
 		var userPick = $(this).attr("data-value");
 	},
 	resultTransition: function() {
@@ -90,7 +91,7 @@ var game = {
 		setTimeout(game.generateQandA, 4001);
 	},
 	correctAnswer: function() {
-		if (game.userPick === questions[random].correct_a){
+		if (game.userPicked === questions[random].correct_a){
 			// $("#question").empty();
 			// $("#answerChoices").empty();
 			$("#correct-wrong").html("<h2> Correct! </h2>");
@@ -98,7 +99,7 @@ var game = {
 		}
 	},
 	wrongAnswer: function() {
-		if (userPick !== questions[random].correct_a) {				
+		if (userPicked !== questions[random].correct_a) {				
 			$("#correct-wrong").html("<h2> Wrong! Correct answer is " 
 				+ questions[random].correct_a + "</h2>");
 			// $("#question").empty();
@@ -123,7 +124,8 @@ $('#start').on("click", function(event) {
 	$("#start").hide();
 
 	// start timer
-	game.timer;
+	game.timer();
+	var counter = setInterval(game.timer, 1000);
 
 	// Prevents submit button from trying to submit the form	
 	event.preventDefault();
@@ -131,9 +133,9 @@ $('#start').on("click", function(event) {
 	game.generateQandA;
 
 	// if user gets correct or wrong answer, or time is up
-	game.correctAnswer;
-	game.wrongAnswer;
-	game.timesUp;
+	game.correctAnswer();
+	game.wrongAnswer();
+	game.timesUp();
 
 });
 
