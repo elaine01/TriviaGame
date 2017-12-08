@@ -49,7 +49,7 @@ var game = {
 	seconds: 11,
 	correct: 0,
 	wrong: 0,
-	random: Math.floor(Math.random() * questions.length),
+	random: undefined,
 	// j: 0,
 	timer: function() {
 		
@@ -67,6 +67,9 @@ var game = {
 		$("#correct-wrong").empty();
 	},
 	generateQandA: function() {
+		var random = Math.floor(Math.random() * questions.length);
+		game.random = random,
+
 		// Question
 		$("#question").html(questions[game.random].q);
 
@@ -88,11 +91,12 @@ var game = {
 	},
 	correctAnswer: function() {
 		$("#answerChoices").on("click", function() {
-				// $("#question").empty();
-				// $("#answerChoices").empty();
-				$("#correct-wrong").html("<h2> Correct! </h2>");
-				game.resultTransition();
+			// $("#question").empty();
+			// $("#answerChoices").empty();
+			$("#correct-wrong").html("<h2> Correct! </h2>");
+			game.resultTransition();			
 		});
+
 	},
 	wrongAnswer: function() {
 			$("#correct-wrong").html("<h2> Wrong! Correct answer is " 
@@ -104,7 +108,7 @@ var game = {
 	timesUp: function() {
 		$("#correct-wrong").html("<h2> Time is up! Correct answer is... " 
 		+ questions[game.random].correct_a + " </h2>");
-		game.resultTransition;
+		game.resultTransition();
 	}
 }
 
@@ -115,9 +119,9 @@ var game = {
 $('#start').on("click", function(event) {
 	// remove Start button
 	$("#start").hide();
-
 	// start timer
 	game.timer();
+	console.log(game.timer());
 	// var counter = setInterval(game.timer, 1000);
 
 	// Prevents submit button from trying to submit the form	
@@ -128,7 +132,8 @@ $('#start').on("click", function(event) {
 	// if user gets correct or wrong answer, or time is up
 
 	$('#answerChoices').on('click', function(){
-  		if($(this).attr('data-value') === questions[game.random].correct_a){
+  		if ($(this).attr('data-value') === questions[game.random].correct_a) {
+  			console.log($(this));
     		game.correctAnswer();
     		game.resultTransition();
   		} else {
@@ -136,6 +141,10 @@ $('#start').on("click", function(event) {
     		game.resultTransition();
   		}
 	});
+	if (game.seconds < 1) {
+		timesUp();
+	}
+
 
 });
 
