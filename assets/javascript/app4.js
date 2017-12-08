@@ -54,17 +54,20 @@ var game = {
 		if (seconds > 0) {
 			seconds--,
 			$("#time-left").html("<p>Time Remaining: " + seconds + " seconds</p>"),
-		}
-	}
+		},
+	},
 	reset: function() {
 		seconds = 11,
 		$("#question").empty(),
 		$("#answerChoices").empty(),
-	}
+	},
 	correctWrong: function() {
 		$("#correct-wrong").empty(),
-	}
+	},
 	generateQandA: function() {
+		// randomize q and q
+		var random = Math.floor(Math.random() * questions.length)
+
 		// Question
 		$("#question").html(questions[random].q),
 
@@ -75,39 +78,39 @@ var game = {
 			div.addClass("answerOptions"),
 			div.attr("data-value", questions[random].all_a[i]),
 			$("#answerChoices").append(div),
-		}
-	}
+		},
+	},
 	userPick: function() {
 		var userPick = $(this).attr("data-value"),
-	}
+	},
 	resultTransition: function() {
 		// after couple seconds go to next question
 		setTimeout(game.correctWrong, 4000),
 		setTimeout(game.reset, 4000),
 		setTimeout(game.generateQandA, 4001),
-	}
+	},
 	correctAnswer: function() {
 		if (game.userPick === questions[random].correct_a){
 			// $("#question").empty();
 			// $("#answerChoices").empty();
 			$("#correct-wrong").html("<h2> Correct! </h2>");
 			game.resultTransition,
-		}
-	}
+		},
+	},
 	wrongAnswer: function() {
 		if (userPick !== questions[random].correct_a) {				
 			$("#correct-wrong").html("<h2> Wrong! Correct answer is " 
 				+ questions[random].correct_a + "</h2>"),
 			// $("#question").empty();
 			game.resultTransition,
-		}
-	}
+		},
+	},
 	timesUp: function() {
 		if (seconds === 0) {
 			$("#correct-wrong").html("<h2> Time is up! Correct answer is... " 
 			+ questions[random].correct_a + " </h2>");
 			game.resultTransition,
-	}
+	},
 }
 
 
