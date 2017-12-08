@@ -1,8 +1,3 @@
-// ### Option Two: Advanced Assignment (Timed Questions)
-// * You'll create a trivia game that shows only one question until
-//  the player answers it or their time runs out.
-
-// var userPick = "",
 var questions = [
 	{
 		q: "Which of these countries is NOT a part of the Asian continent?",
@@ -46,7 +41,12 @@ var questions = [
 	}
 ];
 
+var finishedQuestions = [];
+
 var seconds = 11;
+var j = 0;
+var correct = 0;
+var wrong = 0;
 
 // setTimeout(timer, seconds);
 
@@ -98,29 +98,31 @@ $(document).ready(function() {
 
 		function generateQandA() {
 			// randomize questions
-			var random = Math.floor(Math.random() * questions.length);
+			// var random = Math.floor(Math.random() * questions.length);
+
+			console.log(j);
 
 			// console.log(questions);
-			console.log(questions[random].q);
-			console.log(questions[random].all_a);
+			console.log(questions[j].q);
+			console.log(questions[j].all_a);
 			// console.log(questions[random].all_a[random]);
-			console.log(questions[random].correct_a);
+			console.log(questions[j].correct_a);
 			// console.log(questions[random].all_a.length);		
-			console.log(random);			
+			console.log(j);			
 
 			// time remaining
 			timer();
 			var counter = setInterval(timer, 1000);
 
 			// Question
-			$("#question").html(questions[random].q);
+			$("#question").html(questions[j].q);
 
 			// Answer
-			for (var i = 0; i < questions[random].all_a.length; i++) {
+			for (var i = 0; i < questions[j].all_a.length; i++) {
 				var div = $("<div>");
-				div.text(questions[random].all_a[i]);
+				div.text(questions[j].all_a[i]);
 				div.addClass("answerOptions");
-				div.attr("data-value", questions[random].all_a[i]);
+				div.attr("data-value", questions[j].all_a[i]);
 				$("#answerChoices").append(div);
 				console.log(div);
 			}
@@ -135,6 +137,8 @@ $(document).ready(function() {
 				// $("correct-wrong").text();
 				setTimeout(correctWrong, 4000);
 				setTimeout(reset, 4000);
+				j++;
+				wrong++;
 				setTimeout(generateQandA, 5000);
 			}
 
@@ -151,7 +155,7 @@ $(document).ready(function() {
 					$("#correct-wrong").empty();		
 				}
 
-				 if (userPick === questions[random].correct_a) {
+				 if (userPick === questions[j].correct_a) {
 					// $("#question").empty();
 					// $("#answerChoices").empty();
 					$("#correct-wrong").html("<h2> Correct! </h2>");
@@ -159,13 +163,18 @@ $(document).ready(function() {
 					// after couple seconds go to next question
 					setTimeout(correctWrong, 4000);
 					setTimeout(reset, 4000);
+					j++;
+					correct++;
+					console.log(j);
 					setTimeout(generateQandA, 5000);
-				} else if (userPick !== questions[random].correct_a) {				
+				} else if (userPick !== questions[j].correct_a) {				
 					$("#correct-wrong").html("<h2> Wrong! </h2>");
 					// $("#question").empty();
 					// $("#answerChoices").empty();					
 					setTimeout(correctWrong, 4000);
 					setTimeout(reset, 4000);
+					j++;
+					wrong++;
 					setTimeout(generateQandA, 5000);
 				} 
 			});
@@ -184,6 +193,11 @@ $(document).ready(function() {
 
 	// * On the final screen, show the number of correct answers, incorrect answers, 
 	// and an option to restart the game (without reloading the page).
+
+	if (j === 3) {
+		$("correct-wrong").html("<div> Correct: " + correct + "</div>"
+			+ "<div> Wrong: " + wrong + "</div>")
+	}
 
 	});
 });
