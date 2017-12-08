@@ -124,6 +124,7 @@ function generateQandA() {
 				+ questions[random].correct_a + "</h2>");
 			// $("#question").empty();
 			// $("#answerChoices").empty();					
+			
 			setTimeout(correctWrong, 4000);
 			setTimeout(reset, 4000);
 			setTimeout(generateQandA, 5000);
@@ -131,7 +132,7 @@ function generateQandA() {
 	});
 	//   * If the player runs out of time, tell the player that time's up and
 	//    display the correct answer. Wait a few seconds, then show the next question.
-	if (seconds == 0) {
+	if (seconds === 0) {
 		$("#correct-wrong").html("<h2> Time is up! Correct answer is... " 
 			+ questions[random].correct_a + " </h2>");
 		// $("#question").empty();
