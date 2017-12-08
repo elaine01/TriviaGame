@@ -3,6 +3,7 @@ var questions = [
 	{
 		q: "Which of these countries is NOT a part of the Asian continent?",
 		correct_a: "Suriname",
+		// img: "<img src=' '>",
 		all_a: [
 			"Suriname",
 			"Georgia",
@@ -13,6 +14,7 @@ var questions = [
 	{
 		q: "Who is attributed credit for recording the epic poem The Odyssey?",
 		correct_a: "Homer",
+		// img: "<img src=' '>",
 		all_a: [
 			"Homer",
 			"Aristotle",
@@ -23,6 +25,7 @@ var questions = [
 	{
 		q: "The book &quot;The Little Prince&quot; was written by...",
 		correct_a: "Antoine de Saint-Exup&eacute;ry",
+		// img: "<img src=' '>",
 		all_a: [
 			"Antoine de Saint-Exup&eacute;ry",
 			"Miguel de Cervantes Saavedra",
@@ -33,6 +36,7 @@ var questions = [
 	{
 		q: "Released in 2001, the first edition of Apple&#039;s Mac OS X operating system (version 10.0) was given what animal code name?",
 		correct_a: "Cheetah",
+		// img: "<img src=' '>",
 		all_a: [
 			"Cheetah",
 			"Puma",
@@ -44,15 +48,11 @@ var questions = [
 
 var seconds = 11;
 
+
 // setTimeout(timer, seconds);
 
 function timer() {
-	// seconds = seconds-1;
-	// if (seconds < 0) {
-	// 	clearInterval(counter);
-	// 	return;
-	// }
-
+	
 	if (seconds > 0) {
 		seconds--;
 		$("#time-left").html("<p>Time Remaining: " + seconds + " seconds</p>");
@@ -63,22 +63,81 @@ function timer() {
 function reset() {
 	seconds = 11;
 	// timer();
-	var counter = setInterval(timer, 1000);
+	// var counter = setInterval(timer, 1000);
 	$("#question").empty();
 	$("#answerChoices").empty();
 }
 
-// // if user gets right answer
-// function rightAnswer() {
-// 	$("#answerChoices").empty();
-// 	questions[]
-// }
+function correctWrong() {
+	$("#correct-wrong").empty();
+}
 
-// // if user gets wrong answer
-// function wrongAnswer() {
+function generateQandA() {
+	// randomize questions
+	var random = Math.floor(Math.random() * questions.length);
 
-// }
+	// console.log(questions);
+	console.log(questions[random].correct_a);
+	// console.log(questions[random].all_a.length);		
+	// console.log(random);			
 
+	// time remaining
+	// timer();
+	
+
+	// Question
+	$("#question").html(questions[random].q);
+
+	// Answer
+	for (var i = 0; i < questions[random].all_a.length; i++) {
+		var div = $("<div>");
+		div.text(questions[random].all_a[i]);
+		div.addClass("answerOptions");
+		div.attr("data-value", questions[random].all_a[i]);
+		$("#answerChoices").append(div);
+	}
+
+	// If the player selects the correct answer, show a screen congratulating
+	// them for choosing the right option. After a few seconds, display
+	// the next question -- do this without user input.
+
+	// note: grab text value of clicked text
+	$(".answerOptions").on("click", function() {
+		console.log($(this).attr("data-value"));
+		var userPick = $(this).attr("data-value");
+
+		if (userPick === questions[random].correct_a) {
+			// $("#question").empty();
+			// $("#answerChoices").empty();
+			$("#correct-wrong").html("<h2> Correct! </h2>");
+
+			// after couple seconds go to next question
+			setTimeout(correctWrong, 4000);
+			setTimeout(reset, 4000);
+			setTimeout(generateQandA, 5000);
+		} else if (userPick !== questions[random].correct_a) {				
+			$("#correct-wrong").html("<h2> Wrong! Correct answer is " 
+				+ questions[random].correct_a + "</h2>");
+			// $("#question").empty();
+			// $("#answerChoices").empty();					
+			setTimeout(correctWrong, 4000);
+			setTimeout(reset, 4000);
+			setTimeout(generateQandA, 5000);
+		} 
+	});
+	if (seconds == 0) {
+		$("#correct-wrong").html("<h2> Time is up! Correct answer is... " 
+			+ questions[random].correct_a + " </h2>");
+		// $("#question").empty();
+		// $("#answerChoices").empty();	
+		// show correct answer
+		console.log(random);
+		// $("correct-wrong").text();
+		setTimeout(correctWrong, 4000);
+		setTimeout(reset, 4000);
+		setTimeout(generateQandA, 4001);
+	}
+}
 
 $(document).ready(function() {
 
@@ -88,86 +147,14 @@ $(document).ready(function() {
 		// remove Start button
 		$("#start").hide();
 
+		// starts counter
+		var counter = setInterval(timer, 1000);
+
 		// Prevents submit button from trying to submit the form
-		// event.preventDefault();
-
-		function generateQandA() {
-			// randomize questions
-			var random = Math.floor(Math.random() * questions.length);
-
-			// console.log(questions);
-			console.log(questions[random].q);
-			console.log(questions[random].all_a);
-			// console.log(questions[random].all_a[random]);
-			console.log(questions[random].correct_a);
-			// console.log(questions[random].all_a.length);		
-			console.log(random);			
-
-			// time remaining
-			// timer();
-			var counter = setInterval(timer, 1000);
-
-			// Question
-			$("#question").html(questions[random].q);
-
-			// Answer
-			for (var i = 0; i < questions[random].all_a.length; i++) {
-				var div = $("<div>");
-				div.text(questions[random].all_a[i]);
-				div.addClass("answerOptions");
-				div.attr("data-value", questions[random].all_a[i]);
-				$("#answerChoices").append(div);
-				console.log(div);
-			}
-
-
-			if (seconds === 0) {
-				$("#correct-wrong").html("<h2> Time is up! Correct answer is... </h2>");
-				// $("#question").empty();
-				// $("#answerChoices").empty();	
-				// show correct answer
-				console.log(random);
-				// $("correct-wrong").text();
-				setTimeout(correctWrong, 4000);
-				setTimeout(reset, 4000);
-				setTimeout(generateQandA, 5000);
-			}
-
-			// If the player selects the correct answer, show a screen congratulating
-			// them for choosing the right option. After a few seconds, display
-			// the next question -- do this without user input.
-
-			// note: grab text value of clicked text
-			$(".answerOptions").on("click", function() {
-				console.log($(this).attr("data-value"));
-				var userPick = $(this).attr("data-value");
-
-				function correctWrong() {
-					$("#correct-wrong").empty();		
-				}
-
-				 if (userPick === questions[random].correct_a) {
-					// $("#question").empty();
-					// $("#answerChoices").empty();
-					$("#correct-wrong").html("<h2> Correct! </h2>");
-
-					// after couple seconds go to next question
-					setTimeout(correctWrong, 4000);
-					setTimeout(reset, 4000);
-					setTimeout(generateQandA, 5000);
-				} else if (userPick !== questions[random].correct_a) {				
-					$("#correct-wrong").html("<h2> Wrong! </h2>");
-					// $("#question").empty();
-					// $("#answerChoices").empty();					
-					setTimeout(correctWrong, 4000);
-					setTimeout(reset, 4000);
-					setTimeout(generateQandA, 5000);
-				} 
-			});
-
-		}
-		
+		event.preventDefault();
 		generateQandA();
+
+	});
 
 	// * The scenario is similar for wrong answers and time-outs.
 
@@ -180,7 +167,7 @@ $(document).ready(function() {
 	// * On the final screen, show the number of correct answers, incorrect answers, 
 	// and an option to restart the game (without reloading the page).
 
-	});
+
 });
 
 
