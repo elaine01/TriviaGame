@@ -110,6 +110,7 @@ var game = {
 			$("#correct-wrong").html("<h2> Time is up! Correct answer is... " 
 			+ questions[random].correct_a + " </h2>");
 			game.resultTransition;
+		}
 	}
 }
 
@@ -130,9 +131,9 @@ $('#start').on("click", function(event) {
 	game.generateQandA;
 
 	// if user gets correct or wrong answer, or time is up
-	game.correctAnswer,
-	game.wrongAnswer,
-	game.timesUp,
+	game.correctAnswer;
+	game.wrongAnswer;
+	game.timesUp;
 
 });
 
