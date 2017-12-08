@@ -131,24 +131,23 @@ $('#start').on("click", function(event) {
 
 	// if user gets correct or wrong answer, or time is up
 
-	$('#answerChoices').on('click', function(){
-  		if ($(this).attr('data-value') === questions[game.random].correct_a) {
-  			console.log($(this));
-    		game.correctAnswer();
-    		game.resultTransition();
-  		} else {
-    		game.wrongAnswer();
-    		game.resultTransition();
-  		}
-	});
+
 	if (game.seconds < 1) {
-		timesUp();
+		game.timesUp();
 	}
 
 
 });
-
-
+$(document).on('click', '.answerOptions', function(){
+	console.log($(this).attr('data-value'));
+  	if ($(this).attr('data-value') === questions[game.random].correct_a) {
+    	game.correctAnswer();
+    	game.resultTransition();
+  	} else {
+    	game.wrongAnswer();
+    	game.resultTransition();
+  	}
+});
 
 
 
