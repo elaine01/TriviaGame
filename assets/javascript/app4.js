@@ -52,65 +52,65 @@ var game = {
 	// j: 0,
 	timer: function() {
 		if (seconds > 0) {
-			seconds--,
-			$("#time-left").html("<p>Time Remaining: " + seconds + " seconds</p>"),
-		},
+			seconds--;
+			$("#time-left").html("<p>Time Remaining: " + seconds + " seconds</p>");
+		}
 	},
 	reset: function() {
-		seconds = 11,
-		$("#question").empty(),
-		$("#answerChoices").empty(),
+		seconds = 11;
+		$("#question").empty();
+		$("#answerChoices").empty();
 	},
 	correctWrong: function() {
-		$("#correct-wrong").empty(),
+		$("#correct-wrong").empty();
 	},
 	generateQandA: function() {
 		// randomize q and q
-		var random = Math.floor(Math.random() * questions.length)
+		var random = Math.floor(Math.random() * questions.length);
 
 		// Question
-		$("#question").html(questions[random].q),
+		$("#question").html(questions[random].q);
 
 		// Answer
 		for (var i = 0; i < questions[random].all_a.length; i++) {
-			var div = $("<div>"),
-			div.text(questions[random].all_a[i]),
-			div.addClass("answerOptions"),
-			div.attr("data-value", questions[random].all_a[i]),
-			$("#answerChoices").append(div),
-		},
+			var div = $("<div>");
+			div.text(questions[random].all_a[i]);
+			div.addClass("answerOptions");
+			div.attr("data-value", questions[random].all_a[i]);
+			$("#answerChoices").append(div);
+		}
 	},
 	userPick: function() {
-		var userPick = $(this).attr("data-value"),
+		var userPick = $(this).attr("data-value");
 	},
 	resultTransition: function() {
 		// after couple seconds go to next question
-		setTimeout(game.correctWrong, 4000),
-		setTimeout(game.reset, 4000),
-		setTimeout(game.generateQandA, 4001),
+		setTimeout(game.correctWrong, 4000);
+		setTimeout(game.reset, 4000);
+		setTimeout(game.generateQandA, 4001);
 	},
 	correctAnswer: function() {
 		if (game.userPick === questions[random].correct_a){
 			// $("#question").empty();
 			// $("#answerChoices").empty();
 			$("#correct-wrong").html("<h2> Correct! </h2>");
-			game.resultTransition,
-		},
+			game.resultTransition;
+		}
 	},
 	wrongAnswer: function() {
 		if (userPick !== questions[random].correct_a) {				
 			$("#correct-wrong").html("<h2> Wrong! Correct answer is " 
-				+ questions[random].correct_a + "</h2>"),
+				+ questions[random].correct_a + "</h2>");
 			// $("#question").empty();
-			game.resultTransition,
-		},
+			game.resultTransition;
+		}
 	},
 	timesUp: function() {
 		if (seconds === 0) {
 			$("#correct-wrong").html("<h2> Time is up! Correct answer is... " 
 			+ questions[random].correct_a + " </h2>");
-			game.resultTransition,
-	},
+			game.resultTransition;
+	}
 }
 
 
