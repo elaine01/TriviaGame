@@ -81,8 +81,7 @@ var game = {
 			$("#answerChoices").append(div);
 		}
 	},
-	userPicked: function() {
-		var userPick = $(this).attr("data-value");
+	userPick: $(this).attr("data-value"),
 	},
 	resultTransition: function() {
 		// after couple seconds go to next question
@@ -91,15 +90,17 @@ var game = {
 		setTimeout(game.generateQandA, 4001);
 	},
 	correctAnswer: function() {
-		if (game.userPicked === questions[random].correct_a){
-			// $("#question").empty();
-			// $("#answerChoices").empty();
-			$("#correct-wrong").html("<h2> Correct! </h2>");
-			game.resultTransition;
-		}
+		$("#answerChoices").on("click", function() {
+			if (game.userPick === questions[random].correct_a){
+				// $("#question").empty();
+				// $("#answerChoices").empty();
+				$("#correct-wrong").html("<h2> Correct! </h2>");
+				game.resultTransition;
+			}
+		});
 	},
 	wrongAnswer: function() {
-		if (userPicked !== questions[random].correct_a) {				
+		if (userPick !== questions[random].correct_a) {				
 			$("#correct-wrong").html("<h2> Wrong! Correct answer is " 
 				+ questions[random].correct_a + "</h2>");
 			// $("#question").empty();
@@ -130,7 +131,7 @@ $('#start').on("click", function(event) {
 	// Prevents submit button from trying to submit the form	
 	event.preventDefault();
 	// Generate Question and Answer
-	game.generateQandA;
+	game.generateQandA();
 
 	// if user gets correct or wrong answer, or time is up
 	game.correctAnswer();
