@@ -68,7 +68,7 @@ var game = {
 	},
 	generateQandA: function() {
 		var random = Math.floor(Math.random() * questions.length);
-		game.random = random,
+		game.random = random;
 
 		// Question
 		$("#question").html(questions[game.random].q);
