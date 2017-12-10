@@ -6,6 +6,7 @@
 
 var correct = 0;
 var wrong = 0;
+var unanswered = 11;
 
     function timer() {
         var counter = setInterval(function() {
@@ -33,11 +34,10 @@ var wrong = 0;
     }
 
 var game = {
-    seconds: 180,
-
+    seconds: 10,
     random: -1,
     reset: function() {
-        game.seconds = 180;
+        game.seconds = 10;
         $("#time-left").show();
         $("#question").empty();
         $("#answerChoices").empty();
@@ -100,12 +100,18 @@ var game = {
     result: function() {
         $("#result").html("<div class='score'> Your Score </div>" +
             "<div class='score'> Total correct: " + correct + "</div>"
-            + "<div class='score'> Total incorrect: " + wrong + "</div>");
+            + "<div class='score'> Total incorrect: " + wrong + "</div>"
+            + "<div class='score'> Total unanswered: "
+            + (unanswered - (correct + wrong)) + "</div>");
+
+            console.log((unanswered - (correct + wrong)));
     },
     stop: function() {
         clearInterval(timer);
     },
 }
+
+console.log(unanswered);
 
 $(document).ready(function() {
     $("#restart").hide();
@@ -141,7 +147,6 @@ $(document).on('click', '#start', function() {
         setTimeout(game.correctWrong, 3000);
         setTimeout(game.generateQandA, 4000);
       }
-
 });
 
 
