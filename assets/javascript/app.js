@@ -33,11 +33,11 @@ var wrong = 0;
     }
 
 var game = {
-    seconds: 300,
+    seconds: 180,
 
     random: -1,
     reset: function() {
-        game.seconds = 300;
+        game.seconds = 180;
         $("#time-left").show();
         $("#question").empty();
         $("#answerChoices").empty();
