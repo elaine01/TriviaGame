@@ -3,36 +3,38 @@
 // if time up, show right answer and go to next question
 // after last question, show numbers correct and incorrect
 
-
+// global variables
 var correct = 0;
 var wrong = 0;
 var unanswered = 11;
 
-    function timer() {
-        var counter = setInterval(function() {
+// global function
+function timer() {
+    var counter = setInterval(function() {
         game.seconds--;
 
-            if (game.seconds === 0) {
-                $("#time-left").hide();
-                game.stop();
-                $("#question").hide();
-                $("#question").empty();
-                $("#answerChoices").hide();
-                $("#answerChoices").empty();
-                game.result();
+        if (game.seconds === 0) {
+            $("#time-left").hide();
+            game.stop();
+            $("#question").hide();
+            $("#question").empty();
+            $("#answerChoices").hide();
+            $("#answerChoices").empty();
+            game.result();
                 
-                $("#restart").show();
-                $("#restart").on('click', function(){
-                    game.random = -1;
-                    game.reset();
-                });
-            }
-            if (game.seconds > 0) {
-                $("#time-left").html("<p>Time Remaining: " + game.seconds + " seconds</p>");
-            }
-        }, 1000);
-    }
+            $("#restart").show();
+            $("#restart").on('click', function(){
+                game.random = -1;
+                game.reset();
+            });
+        }
+        if (game.seconds > 0) {
+            $("#time-left").html("<p>Time Remaining: " + game.seconds + " seconds</p>");
+        }
+    }, 1000);
+}
 
+// 
 var game = {
     seconds: 120,
     random: -1,
@@ -45,12 +47,14 @@ var game = {
         game.random = -1;
         game.generateQandA();
     },
+    // clear out question, image, and correct/wrong message before displaying next section
     correctWrong: function() {
         $("#correct-wrong").empty();
         $("#image").empty();
         $("#question").empty();
     },
     generateQandA: function() {
+        // if user goes through all the questions
         if (game.random === 10) {
             $("#time-left").hide();
             game.seconds = 0;
@@ -58,15 +62,19 @@ var game = {
             $("#question").empty();
             clearInterval(timer);
             $("#restart").show();
+
+            // restart game once user clicks on restart
             $("#restart").on('click', function(){
                 $("#restart").hide();
                 game.random = -1;
                 game.reset();
             });
+
+        // if user didn't go through all the questions
         } if (game.random < 10) {
             game.random++;
             $("#question").html(questions[game.random].q);
-            // Answer
+            // Answer choices
             for (var i = 0; i < questions[game.random].all_a.length; i++) {
                 var div = $("<div>");
                 div.text(questions[game.random].all_a[i]);
@@ -103,16 +111,14 @@ var game = {
             + "<div class='score'> Total incorrect: " + wrong + "</div>"
             + "<div class='score'> Total unanswered: "
             + (unanswered - (correct + wrong)) + "</div>");
-
-            console.log((unanswered - (correct + wrong)));
     },
+    // stop timer
     stop: function() {
         clearInterval(timer);
     },
 }
 
-console.log(unanswered);
-
+// on load, hide restart button and image
 $(document).ready(function() {
     $("#restart").hide();
     $("#image").hide();
@@ -126,12 +132,13 @@ $(document).on('click', '#start', function() {
     timer();
     var intervalID = setInterval(game.timer, 1000);
 
+    // generate questions
     game.generateQandA();
-    if (game.random ===  questions.length) {
-       clearInterval(intervalID);
-       clearInterval(counter);
-       game.result();
-    }
+    // if (game.random ===  questions.length) {
+    //    clearInterval(intervalID);
+    //    clearInterval(counter);
+    //    game.result();
+    // }
 });
     $(document).on('click', '.answerOptions', function(){
       if ($(this).attr('data-value') === questions[game.random].correct_a) {
