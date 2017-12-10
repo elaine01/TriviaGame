@@ -1,7 +1,8 @@
 // if right, go to next question
 // if wrong, show right answer and go to next question
-// if time up, show right answer and go to next question
-// after last question, show numbers correct and incorrect
+// if time up, show right answer and results
+// after last question, show results
+// resuls page, have restart option for user to play again
 
 // global variables
 var correct = 0;
@@ -35,7 +36,7 @@ function timer() {
     }, 1000);
 }
 
-// 
+
 var game = {
     seconds: 120,
     random: -1,
