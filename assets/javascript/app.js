@@ -45,6 +45,7 @@ var game = {
         correct = 0;
         wrong = 0;
         unanswered = 11;
+        $("#result").empty();
         $("#time-left").show();
         $("#question").empty();
         $("#answerChoices").empty();
@@ -80,6 +81,7 @@ var game = {
         // if user didn't go through all the questions
         } if (game.random < 10) {
             game.random++;
+            // $("#time-left").show();
             $("#question").html(questions[game.random].q);
             // Answer choices
             for (var i = 0; i < questions[game.random].all_a.length; i++) {
@@ -123,6 +125,9 @@ var game = {
     stop: function() {
         clearInterval(timer);
     },
+    hideTime: function() {
+        $("#time-left").hide();
+    }
 }
 
 // on load, hide restart button and image
@@ -153,12 +158,13 @@ $(document).on('click', '#start', function() {
         game.correctAnswer();
         clearInterval(game.seconds);
         setTimeout(game.correctWrong, 3000);
-        // setTimeout(game.reset, 3000);
+        // setTimeout(game.hideTime, 3000);
         setTimeout(game.generateQandA, 4000);
       } else if ($(this).attr('data-value') !== questions[game.random].correct_a) {
         game.wrongAnswer();
         clearInterval(game.seconds);
         setTimeout(game.correctWrong, 3000);
+        // setTimeout(game.hideTime, 3000);
         setTimeout(game.generateQandA, 4000);
       }
 });

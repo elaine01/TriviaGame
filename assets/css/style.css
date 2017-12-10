@@ -26,13 +26,40 @@ body {
 #quizContainer {
 	position: absolute;
 	width: 650px;
-	top: 40%;
+	top: 43%;
 	left: 50%;
 	transform: translate(-50%, -25%);
 }
 
+#time-left {
+	color: #824612;
+	font-size: 32px;
+}
+
 div {
-	margin: 10px 0;
+	margin: 5px 0;
+	padding: 2px 0;
+}
+
+div.answerOptions {
+	margin: 5px 0;
+	padding: 3px 0;
+}
+
+#question {
+	font-size: 40px;
+}
+}
+
+.answerOptions: {
+	padding: 3px 0;
+}
+
+.answerOptions:hover {
+	background-color: #824612;
+	color: white;
+	border-radius: 20px;
+	/*padding: 3px 0;*/
 }
 
 button {
@@ -52,4 +79,10 @@ button:hover {
 h1 {
 	font-size: 60px;
 	padding-bottom: 50px;
+}
+
+.image {
+	border-radius: 20px;
+	opacity: 0.9;
+	filter: alpha(opacity=90); /* For IE8 and earlier */
 }
