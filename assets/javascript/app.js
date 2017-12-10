@@ -37,11 +37,14 @@ function timer() {
 
 // 
 var game = {
-    seconds: 10,
+    seconds: 120,
     random: -1,
     reset: function() {
         $("#restart").hide();
-        game.seconds = 10;
+        game.seconds = 120;
+        correct = 0;
+        wrong = 0;
+        unanswered = 11;
         $("#time-left").show();
         $("#question").empty();
         $("#answerChoices").empty();
