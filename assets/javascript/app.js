@@ -34,10 +34,10 @@ var unanswered = 11;
     }
 
 var game = {
-    seconds: 10,
+    seconds: 120,
     random: -1,
     reset: function() {
-        game.seconds = 10;
+        game.seconds = 120;
         $("#time-left").show();
         $("#question").empty();
         $("#answerChoices").empty();
