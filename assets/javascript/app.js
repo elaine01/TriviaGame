@@ -165,7 +165,7 @@ $(document).on('click', '#start', function() {
 
 
 var questions = [{
-        q: "What's the name of Bellatrix' husband",
+        q: "What's the name of Bellatrix' husband?",
         correct_a: "Rodolphus Lestrange",
         all_a: ["Albert Lestrange", "Rolphius Lestrange", 
         "Adolph Lestrange", "Rodolphus Lestrange"]
@@ -214,16 +214,16 @@ var questions = [{
 ];
 
 var imageArray = [
-    "<img class='0 image' height= '300px' src='assets/images/img0.jpg'>",
-    "<img class='1 image' height= '300px' src='assets/images/img1.jpg'>",
-    "<img class='2 image' height= '300px' src='assets/images/img2.jpg'>",
-    "<img class='3 image' height= '300px' src='assets/images/img3.jpg'>",
-    "<img class='4 image' height= '300px' src='assets/images/img4.jpg'>",
-    "<img class='5 image' height= '300px' src='assets/images/img5.jpg'>",
-    "<img class='6 image' height= '300px' src='assets/images/img6.jpg'>",
-    "<img class='7 image' height= '300px' src='assets/images/img7.jpg'>",
-    "<img class='8 image' height= '300px' src='assets/images/img8.jpg'>",
-    "<img class='9 image' height= '300px' src='assets/images/img9.jpg'>",
-    "<img class='10 image' height= '300px' src='assets/images/img10.png'>",
+    "<br> <img class='0 image' height= '300px' src='assets/images/img0.jpg'>",
+    "<br> <img class='1 image' height= '300px' src='assets/images/img1.jpg'>",
+    "<br> <img class='2 image' height= '300px' src='assets/images/img2.jpg'>",
+    "<br> <img class='3 image' height= '300px' src='assets/images/img3.jpg'>",
+    "<br> <img class='4 image' height= '300px' src='assets/images/img4.jpg'>",
+    "<br> <img class='5 image' height= '300px' src='assets/images/img5.jpg'>",
+    "<br> <img class='6 image' height= '300px' src='assets/images/img6.jpg'>",
+    "<br> <img class='7 image' height= '300px' src='assets/images/img7.jpg'>",
+    "<br> <img class='8 image' height= '300px' src='assets/images/img8.jpg'>",
+    "<br> <img class='9 image' height= '300px' src='assets/images/img9.jpg'>",
+    "<br> <img class='10 image' height= '300px' src='assets/images/img10.png'>",
 ]
 
