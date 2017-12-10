@@ -1,18 +1,12 @@
 var correct = 0;
 var wrong = 0;
 
-var game = {
-    seconds: 11,
-
-    random: -1,
-    // j: 0,
-    timer: function() {
+    function timer() {
         var counter = setInterval(function() {
         game.seconds--;
         // console.log(game.seconds);
             if (game.seconds > 0) {
                 $("#time-left").html("<p>Time Remaining: " + game.seconds + " seconds</p>");
-                clearInterval(counter);
             }
             if (game.seconds === 0) {
                 $("#time-left").hide();
@@ -34,6 +28,13 @@ var game = {
             }
         }, 1000);
     },
+
+
+var game = {
+    seconds: 4,
+
+    random: -1,
+    // j: 0,
     reset: function() {
         console.log("line 19");
         game.seconds = 11;
@@ -107,7 +108,7 @@ $(document).on('click', '#start', function() {
     // start timer
 
     game.timer();
-    setInterval(game.timer, 1000);
+    var intervalID = setInterval(game.timer, 1000);
     // console.log(counter);
     // Prevents submit button from trying to submit the form    
     // event.preventDefault();
@@ -115,6 +116,8 @@ $(document).on('click', '#start', function() {
     game.generateQandA();
     console.log(game.seconds);
     if (game.random ===  questions.length) {
+       clearInterval(intervalID);
+       clearInterval(counter);
        game.result();
     }
 });

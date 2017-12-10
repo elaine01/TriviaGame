@@ -7,12 +7,11 @@ var game = {
     // j: 0,
     timer: function() {
         console.log('line 54');
-        if (game.seconds > 0) {
-            game.seconds--;
+        game.seconds--;
             $("#time-left").html("<p>Time Remaining: " + game.seconds + " seconds</p>");
-        }
         if (game.seconds === 0) {
             game.timesUp();
+            clearInterval(game.seconds);
         }
     },
     reset: function() {
@@ -57,16 +56,10 @@ var game = {
         // $("#question").empty();
         // game.resultTransition();
     },
-    wrongAnswer: function() {
-        $("#correct-wrong").html("<h2> Wrong! Correct answer is " 
-                + questions[game.random].correct_a + "</h2>");
-          // $("#question").empty();
-        // game.resultTransition();
-    },
     timesUp: function() {
         $("#correct-wrong").html("<h2> Time is up! Correct answer is... " 
         + questions[game.random].correct_a + " </h2>");
-        game.reset();
+        // game.reset();
          // game.resultTransition();
         }
 }
@@ -76,6 +69,8 @@ $('#start').on("click", function(event) {
     // remove Start button
     $("#start").hide();
     // start timer
+    
+
     game.timer();
     setInterval(game.timer, 1000);
     // console.log(counter);
