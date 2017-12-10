@@ -1,193 +1,220 @@
-// ### Option Two: Advanced Assignment (Timed Questions)
-// * You'll create a trivia game that shows only one question until
-//  the player answers it or their time runs out.
+// if right, go to next question
+// if wrong, show right answer and go to next question
+// if time up, show right answer and go to next question
+// after last question, show numbers correct and incorrect
 
-// var userPick = "",
-var questions = [
-	{
-		q: "Which of these countries is NOT a part of the Asian continent?",
-		correct_a: "Suriname",
-		all_a: [
-			"Suriname",
-			"Georgia",
-			"Russia",
-			"Singapore"
-		]
-	},
-	{
-		q: "Who is attributed credit for recording the epic poem The Odyssey?",
-		correct_a: "Homer",
-		all_a: [
-			"Homer",
-			"Aristotle",
-			"Odysseus",
-			"Socrates"
-		]
-	},
-	{
-		q: "The book &quot;The Little Prince&quot; was written by...",
-		correct_a: "Antoine de Saint-Exup&eacute;ry",
-		all_a: [
-			"Antoine de Saint-Exup&eacute;ry",
-			"Miguel de Cervantes Saavedra",
-			"Jane Austen",
-			"F. Scott Fitzgerald"
-		]
-	},
-	{
-		q: "Released in 2001, the first edition of Apple&#039;s Mac OS X operating system (version 10.0) was given what animal code name?",
-		correct_a: "Cheetah",
-		all_a: [
-			"Cheetah",
-			"Puma",
-			"Tiger",
-			"Leopard"
-		]
-	}
-];
 
-var seconds = 11;
+var correct = 0;
+var wrong = 0;
 
-// setTimeout(timer, seconds);
+    function timer() {
+        var counter = setInterval(function() {
+        game.seconds--;
 
-function timer() {
-	// seconds = seconds-1;
-	// if (seconds < 0) {
-	// 	clearInterval(counter);
-	// 	return;
-	// }
+            if (game.seconds === 0) {
+                $("#time-left").hide();
+                game.stop();
+                $("#question").hide();
+                $("#question").empty();
+                $("#answerChoices").hide();
+                $("#answerChoices").empty();
+                game.result();
+                
+                $("#restart").show();
+                $("#restart").on('click', function(){
+                    game.random = -1;
+                    game.reset();
+                });
+            }
+            if (game.seconds > 0) {
+                $("#time-left").html("<p>Time Remaining: " + game.seconds + " seconds</p>");
+            }
+        }, 1000);
+    }
 
-	if (seconds > 0) {
-		seconds--;
-		$("#time-left").html("<p>Time Remaining: " + seconds + " seconds</p>");
-		console.log(seconds);
-	} 
-	
+var game = {
+    seconds: 300,
+
+    random: -1,
+    reset: function() {
+        game.seconds = 300;
+        $("#time-left").show();
+        $("#question").empty();
+        $("#answerChoices").empty();
+        $(".score").text("");
+        game.random = -1;
+        game.generateQandA();
+    },
+    correctWrong: function() {
+        $("#correct-wrong").empty();
+        $("#image").empty();
+        $("#question").empty();
+    },
+    generateQandA: function() {
+        if (game.random === 10) {
+            $("#time-left").hide();
+            game.seconds = 0;
+            game.result();
+            $("#question").empty();
+            clearInterval(timer);
+            $("#restart").show();
+            $("#restart").on('click', function(){
+                $("#restart").hide();
+                game.random = -1;
+                game.reset();
+            });
+        } if (game.random < 10) {
+            game.random++;
+            $("#question").html(questions[game.random].q);
+            // Answer
+            for (var i = 0; i < questions[game.random].all_a.length; i++) {
+                var div = $("<div>");
+                div.text(questions[game.random].all_a[i]);
+                div.addClass("answerOptions");
+                div.attr("data-value", questions[game.random].all_a[i]);
+                $("#answerChoices").append(div);
+            }
+        }
+    },
+    correctAnswer: function() {
+        correct++;
+        $("#correct-wrong").html("<h2> Correct! </h2>");
+        $("#answerChoices").empty();
+        var img = imageArray[game.random]
+        $("#image").append(img);
+        $("#image").show();  
+    },
+    wrongAnswer: function() {
+        wrong++;
+        $("#correct-wrong").html("<h2> Wrong! Correct answer is " 
+                + questions[game.random].correct_a + "</h2>");
+        $("#answerChoices").empty();
+        var img = imageArray[game.random]
+        $("#image").append(img);
+        $("#image").show();
+    },
+    timesUp: function() {
+        $("#correct-wrong").html("<h2> Time is up! Correct answer is... " 
+        + questions[game.random].correct_a + " </h2>");
+    },
+    result: function() {
+        $("#result").html("<div class='score'> Your Score </div>" +
+            "<div class='score'> Total correct: " + correct + "</div>"
+            + "<div class='score'> Total incorrect: " + wrong + "</div>");
+    },
+    stop: function() {
+        clearInterval(timer);
+    },
 }
-
-function reset() {
-	seconds = 11;
-	$("#question").empty();
-	$("#answerChoices").empty();
-
-}
-
-// // if user gets right answer
-// function rightAnswer() {
-// 	$("#answerChoices").empty();
-// 	questions[]
-// }
-
-// // if user gets wrong answer
-// function wrongAnswer() {
-
-// }
-
 
 $(document).ready(function() {
+    $("#restart").hide();
+    $("#image").hide();
+});
 
-	// User presses Start
-	$('#start').on("click", function(event) {
+$(document).on('click', '#start', function() {
+    // remove Start button
+    $("#start").hide();
+    
+    // start timer
+    timer();
+    var intervalID = setInterval(game.timer, 1000);
 
+    game.generateQandA();
+    if (game.random ===  questions.length) {
+       clearInterval(intervalID);
+       clearInterval(counter);
+       game.result();
+    }
+});
+    $(document).on('click', '.answerOptions', function(){
+      if ($(this).attr('data-value') === questions[game.random].correct_a) {
 
-		// remove Start button
-		$("#start").hide();
+        game.correctAnswer();
+        clearInterval(game.seconds);
+        setTimeout(game.correctWrong, 3000);
+        // setTimeout(game.reset, 3000);
+        setTimeout(game.generateQandA, 4000);
+      } else if ($(this).attr('data-value') !== questions[game.random].correct_a) {
+        game.wrongAnswer();
+        clearInterval(game.seconds);
+        setTimeout(game.correctWrong, 3000);
+        setTimeout(game.generateQandA, 4000);
+      }
 
-		// Prevents submit button from trying to submit the form
-		event.preventDefault();
-
-		function generateQandA() {
-			// randomize questions
-			var random = Math.floor(Math.random() * questions.length);
-
-			// console.log(questions);
-			console.log(questions[random].q);
-			console.log(questions[random].all_a);
-			// console.log(questions[random].all_a[random]);
-			console.log(questions[random].correct_a);
-			// console.log(questions[random].all_a.length);		
-			console.log(random);			
-
-			// time remaining
-			timer();
-			var counter = setInterval(timer, 1000);
-
-			// Question
-			$("#question").html(questions[random].q);
-
-			// Answer
-			for (var i = 0; i < questions[random].all_a.length; i++) {
-				var div = $("<div>");
-				div.text(questions[random].all_a[i]);
-				div.addClass("answerOptions");
-				div.attr("data-value", questions[random].all_a[i]);
-				$("#answerChoices").append(div);
-				console.log(div);
-			}
-
-
-			if (seconds === 0) {
-				$("#correct-wrong").html("<h2> Time is up! Correct answer is... </h2>");
-				// $("#question").empty();
-				// $("#answerChoices").empty();	
-				// show correct answer
-				console.log(random);
-				// $("correct-wrong").text();
-				setTimeout(correctWrong, 4000);
-				setTimeout(reset, 4000);
-				setTimeout(generateQandA, 5000);
-			}
-
-			// If the player selects the correct answer, show a screen congratulating
-			// them for choosing the right option. After a few seconds, display
-			// the next question -- do this without user input.
-
-			// note: grab text value of clicked text
-			$(".answerOptions").on("click", function() {
-				console.log($(this).attr("data-value"));
-				var userPick = $(this).attr("data-value");
-
-				function correctWrong() {
-					$("#correct-wrong").empty();		
-				}
-
-				 if (userPick === questions[random].correct_a) {
-					// $("#question").empty();
-					// $("#answerChoices").empty();
-					$("#correct-wrong").html("<h2> Correct! </h2>");
-
-					// after couple seconds go to next question
-					setTimeout(correctWrong, 4000);
-					setTimeout(reset, 4000);
-					setTimeout(generateQandA, 5000);
-				} else if (userPick !== questions[random].correct_a) {				
-					$("#correct-wrong").html("<h2> Wrong! </h2>");
-					// $("#question").empty();
-					// $("#answerChoices").empty();					
-					setTimeout(correctWrong, 4000);
-					setTimeout(reset, 4000);
-					setTimeout(generateQandA, 5000);
-				} 
-			});
-
-		}
-		
-		generateQandA();
-
-	// * The scenario is similar for wrong answers and time-outs.
-
-	//   * If the player runs out of time, tell the player that time's up and
-	//    display the correct answer. Wait a few seconds, then show the next question.
-	//   * If the player chooses the wrong answer, tell the player they selected the
-	//    wrong option and then display the correct answer. Wait a few seconds,
-	//     then show the next question.
-
-	// * On the final screen, show the number of correct answers, incorrect answers, 
-	// and an option to restart the game (without reloading the page).
-
-	});
 });
 
 
+var questions = [{
+        q: "What's the name of Bellatrix' husband",
+        correct_a: "Rodolphus Lestrange",
+        all_a: ["Albert Lestrange", "Rolphius Lestrange", 
+        "Adolph Lestrange", "Rodolphus Lestrange"]
+    }, {
+        q: "What's the name of Percy's wife?",
+        correct_a: "Audrey",
+        // img: "<img src=' '>",
+        all_a: ["Audrey", "Lucy", "Rosie", "Marjorie"]
+    }, {
+        q: "Which of these is a type of Love Potion?",
+        correct_a: "Amortentia",
+        // img: "<img src=' '>",
+        all_a: ["Felixfelicis", "Amortentia", "Polyjuice Potion", "Veritaserum"]
+    }, {
+        q: "What class did Neville end up teaching at Hogwarts?",
+        correct_a: "Herbology",
+        // img: "<img src=' '>",
+        all_a: ["Astronomy", "Muggle Studies", "Herbology", "Charms"]
+    }, {
+        q: "Which newspaper does Rita Skeeter work for?",
+        correct_a: "The Daily Prophet",
+        // img: "<img src=' '>",
+        all_a: ["The Quibbler", "The Daily Prophet", "The Quidditch", "The Daily Wizard"]
+    }, {
+        q: "Which of these characters is a metamorphmagus?",
+        correct_a: "Nymphadora Tonks",
+        // img: "<img src=' '>",
+        all_a: ["Minerva McGonagall", "Nymphadora Tonks",
+        "Remus Lupin", "Harry Potter"]
+    }, {
+        q: "What's the name of Tonks and Lupin's son?",
+        correct_a: "Edward",
+        // img: "<img src=' '>",
+        all_a: ["Theodore", "Lyall", "James", "Edward"]
+    }, {
+        q: "What's the name of Fleur Delacour's sister?",
+        correct_a: "Gabrielle",
+        // img: "<img src=' '>",
+        all_a: ["Victoire", "Apolline", "Dominique", "Gabrielle"]
+    }, {
+        q: "Which class did Severus Snape always want to teach?",
+        correct_a: "Defence Against the DA",
+        // img: "<img src=' '>",
+        all_a: ["Defence Against the DA", "Potions", "Charms", "Transfiguration"]
+    }, {
+        q: "What's the name of Ron Weasley's great-aunt?",
+        correct_a: "Muriel",
+        // img: "<img src=' '>",
+        all_a: ["Marge", "Margot", "Muriel", "Marjorie"]
+    }, {
+        q: "Which Hogwarts house did Moaning Myrtle belong in?",
+        correct_a: "Ravenclaw",
+        // img: "<img src=' '>",
+        all_a: ["Gryffindor", "Slytherin", "Ravenclaw", "Hugglepuff"]
+    }
+];
 
+var imageArray = [
+    "<img class='0 image' height= '300px' src='assets/images/img0.jpg'>",
+    "<img class='1 image' height= '300px' src='assets/images/img1.jpg'>",
+    "<img class='2 image' height= '300px' src='assets/images/img2.jpg'>",
+    "<img class='3 image' height= '300px' src='assets/images/img3.jpg'>",
+    "<img class='4 image' height= '300px' src='assets/images/img4.jpg'>",
+    "<img class='5 image' height= '300px' src='assets/images/img5.jpg'>",
+    "<img class='6 image' height= '300px' src='assets/images/img6.jpg'>",
+    "<img class='7 image' height= '300px' src='assets/images/img7.jpg'>",
+    "<img class='8 image' height= '300px' src='assets/images/img8.jpg'>",
+    "<img class='9 image' height= '300px' src='assets/images/img9.jpg'>",
+    "<img class='10 image' height= '300px' src='assets/images/img10.png'>",
+]
 
