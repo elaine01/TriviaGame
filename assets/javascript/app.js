@@ -13,6 +13,7 @@ function timer() {
     var counter = setInterval(function() {
         game.seconds--;
 
+        // when time is up, remove dynamic elements on screen and display restart button
         if (game.seconds === 0) {
             $("#time-left").hide();
             game.stop();
@@ -36,16 +37,19 @@ function timer() {
 
 // 
 var game = {
-    seconds: 120,
+    seconds: 10,
     random: -1,
     reset: function() {
-        game.seconds = 120;
+        $("#restart").hide();
+        game.seconds = 10;
         $("#time-left").show();
         $("#question").empty();
         $("#answerChoices").empty();
         $(".score").text("");
         game.random = -1;
         game.generateQandA();
+        $("#question").show();
+        $("#answerChoices").show();
     },
     // clear out question, image, and correct/wrong message before displaying next section
     correctWrong: function() {
@@ -134,11 +138,11 @@ $(document).on('click', '#start', function() {
 
     // generate questions
     game.generateQandA();
-    // if (game.random ===  questions.length) {
-    //    clearInterval(intervalID);
-    //    clearInterval(counter);
-    //    game.result();
-    // }
+    if (game.random ===  questions.length) {
+       clearInterval(intervalID);
+       clearInterval(counter);
+       game.result();
+    }
 });
     $(document).on('click', '.answerOptions', function(){
       if ($(this).attr('data-value') === questions[game.random].correct_a) {
@@ -165,53 +169,43 @@ var questions = [{
     }, {
         q: "What's the name of Percy's wife?",
         correct_a: "Audrey",
-        // img: "<img src=' '>",
         all_a: ["Audrey", "Lucy", "Rosie", "Marjorie"]
     }, {
         q: "Which of these is a type of Love Potion?",
         correct_a: "Amortentia",
-        // img: "<img src=' '>",
         all_a: ["Felixfelicis", "Amortentia", "Polyjuice Potion", "Veritaserum"]
     }, {
         q: "What class did Neville end up teaching at Hogwarts?",
         correct_a: "Herbology",
-        // img: "<img src=' '>",
         all_a: ["Astronomy", "Muggle Studies", "Herbology", "Charms"]
     }, {
         q: "Which newspaper does Rita Skeeter work for?",
         correct_a: "The Daily Prophet",
-        // img: "<img src=' '>",
         all_a: ["The Quibbler", "The Daily Prophet", "The Quidditch", "The Daily Wizard"]
     }, {
         q: "Which of these characters is a metamorphmagus?",
         correct_a: "Nymphadora Tonks",
-        // img: "<img src=' '>",
         all_a: ["Minerva McGonagall", "Nymphadora Tonks",
         "Remus Lupin", "Harry Potter"]
     }, {
         q: "What's the name of Tonks and Lupin's son?",
         correct_a: "Edward",
-        // img: "<img src=' '>",
         all_a: ["Theodore", "Lyall", "James", "Edward"]
     }, {
         q: "What's the name of Fleur Delacour's sister?",
         correct_a: "Gabrielle",
-        // img: "<img src=' '>",
         all_a: ["Victoire", "Apolline", "Dominique", "Gabrielle"]
     }, {
         q: "Which class did Severus Snape always want to teach?",
         correct_a: "Defence Against the DA",
-        // img: "<img src=' '>",
         all_a: ["Defence Against the DA", "Potions", "Charms", "Transfiguration"]
     }, {
         q: "What's the name of Ron Weasley's great-aunt?",
         correct_a: "Muriel",
-        // img: "<img src=' '>",
         all_a: ["Marge", "Margot", "Muriel", "Marjorie"]
     }, {
         q: "Which Hogwarts house did Moaning Myrtle belong in?",
         correct_a: "Ravenclaw",
-        // img: "<img src=' '>",
         all_a: ["Gryffindor", "Slytherin", "Ravenclaw", "Hugglepuff"]
     }
 ];
