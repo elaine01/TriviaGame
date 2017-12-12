@@ -153,21 +153,20 @@ $(document).on('click', '#start', function() {
        game.result();
     }
 });
-    $(document).on('click', '.answerOptions', function(){
-      if ($(this).attr('data-value') === questions[game.random].correct_a) {
-
+$(document).on('click', '.answerOptions', function(){
+    if ($(this).attr('data-value') === questions[game.random].correct_a) {
         game.correctAnswer();
         clearInterval(game.seconds);
         setTimeout(game.correctWrong, 3000);
         // setTimeout(game.hideTime, 3000);
         setTimeout(game.generateQandA, 4000);
-      } else if ($(this).attr('data-value') !== questions[game.random].correct_a) {
+    } else if ($(this).attr('data-value') !== questions[game.random].correct_a) {
         game.wrongAnswer();
         clearInterval(game.seconds);
         setTimeout(game.correctWrong, 3000);
         // setTimeout(game.hideTime, 3000);
         setTimeout(game.generateQandA, 4000);
-      }
+    }
 });
 
 
